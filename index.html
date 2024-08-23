@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<main>
+    <nav class="main-menu">
+        <h1>Grocery Shop</h1>
+        <img class="logo" src="https://cdn-icons-png.flaticon.com/512/135/135532.png" alt="Logo" />
+        <ul>
+            <li class="nav-item active">
+                <b></b>
+                <b></b>
+                <a href="#">
+                    <i class="fa fa-home nav-icon"></i>
+                    <span class="nav-text">Home</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <b></b>
+                <b></b>
+                <a href="#">
+                    <i class="fa fa-user nav-icon"></i>
+                    <span class="nav-text">Customer</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <b></b>
+                <b></b>
+                <a href="#">
+                    <i class="fa fa-box nav-icon"></i>
+                    <span class="nav-text">Items</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <b></b>
+                <b></b>
+                <a href="#">
+                    <i class="fa fa-archive nav-icon"></i>
+                    <span class="nav-text">Orders</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <b></b>
+                <b></b>
+                <a href="#">
+                    <i class="fa fa-file-alt nav-icon"></i>
+                    <span class="nav-text">Order Details</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</main>
+
+<script>
+    const navItems = document.querySelectorAll(".nav-item");
+
+    navItems.forEach((navItem) => {
+        navItem.addEventListener("click", () => {
+            navItems.forEach((item) => {
+                item.classList.remove("active");
+            });
+            navItem.classList.add("active");
+        });
+    });
+</script>
+</body>
+
+
+</html>
