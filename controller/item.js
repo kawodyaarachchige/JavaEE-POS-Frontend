@@ -193,13 +193,45 @@ $(`#item_update`).on(`click`, () => {
 
 
 $('#item_delete').on('click', () => {
-    items.splice(index, 1);
-    swal.fire({
-        icon: 'success',
-        title: 'Item deleted successfully',
-    });
-    $('#item_reset').click();
-    initialize()
+    const id = $('#itemCode').val();
+    fetch('http://localhost:8085/item/'+ id, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(text);
+                });
+            }
+            return response.json().then(data => ({
+                status: response.status,
+                message: data.message,
+                body: data
+            }));
+        }).then(response => {
+        if (response.status === 200) {
+            $('#item_table').empty();
+            loadTable();
+            swal.fire({
+                icon: 'success',
+                title: 'Item deleted successfully',
+            });
+            $('#item_reset').click();
+        } else if (response.status === 404) {
+            swal.fire({
+                icon: 'error',
+                title: 'Item not found',
+            });
+        }
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+            swal.fire({
+                icon: 'error',
+                title: 'An error occurred',
+                text: error.message
+            });
+        });
 })
 
 
