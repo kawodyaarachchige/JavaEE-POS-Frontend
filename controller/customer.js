@@ -9,6 +9,13 @@ initialize()
 function initialize() {
     loadTable();
 }
+$('#customer_reset').on('click', () => {
+    console.log("Customer reset clicked..")
+    $('#customerId').val("");
+    $('#fullname').val("");
+    $('#address').val("");
+    $('#contact').val("");
+});
 
 async function loadTable() {
     $('#customer_table').empty();
@@ -153,31 +160,6 @@ $(`#customer_update`).on(`click`, () => {
             phone: phone
         })
     };
-   /* fetch('http://localhost:8085/customer/'+id, options)
-        .then(response => {
-            return response.json().then(data=>({
-                status:response.status,
-                message:data.message,
-                body:data
-            }));
-        })
-        .then(response=>{
-            if(response.status===200){
-                loadTable()
-                swal.fire({
-                    icon: 'success',
-                    title: 'Customer updated successfully',
-                });
-                $('#customer_reset').click();
-                initialize()
-            }else if(response.status===404){
-                swal.fire({
-                    icon: 'error',
-                    title: 'Customer not found',
-                });
-            }
-        })*/
-
     fetch('http://localhost:8085/customer/'+ id, options)
         .then(response => {
             if (!response.ok) {
@@ -219,13 +201,46 @@ $(`#customer_update`).on(`click`, () => {
 })
 
 $('#customer_delete').on('click', () => {
-    customers.splice(index, 1);
-    Swal.fire({
-        icon: 'success',
-        title: 'Customer deleted successfully',
-    });
-    $('#customer_reset').click();
-    initialize()
+    const id = $('#customerId').val();
+    fetch('http://localhost:8085/customer/'+ id, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(text);
+                });
+            }
+            return response.json().then(data => ({
+                status: response.status,
+                message: data.message,
+                body: data
+            }));
+        })
+        .then(response => {
+            if (response.status === 200) {
+                $('#customer_table').empty();
+                loadTable();
+                swal.fire({
+                    icon: 'success',
+                    title: 'Customer deleted successfully',
+                });
+                $('#customer_reset').click();
+            } else if (response.status === 404) {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Customer not found',
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+            swal.fire({
+                icon: 'error',
+                title: 'An error occurred',
+                text: error.message
+            });
+        });
 })
 
 $("#searchCustomer").on("input", function () {
