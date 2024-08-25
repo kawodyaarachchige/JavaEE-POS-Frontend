@@ -62,6 +62,31 @@
     <section id="home" class="content-section">
         <h1>Home</h1>
         <p>Welcome to the Home section.</p>
+        <div class="container mx-auto p-4">
+            <!-- Date and Time -->
+            <div id="datetime" class="text-center text-gray-700 text-lg font-semibold"></div>
+
+            <!-- Counters Section -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mt-8">
+                <!-- Order Count -->
+                <div class="p-6 bg-white shadow-lg rounded-lg">
+                    <h2 class="text-xl font-bold text-gray-800">Orders</h2>
+                    <p id="orderCount" class="text-3xl text-pink-600 mt-2">0</p>
+                </div>
+                <!-- Customer Count -->
+                <div class="p-6 bg-white shadow-lg rounded-lg">
+                    <h2 class="text-xl font-bold text-gray-800">Customers</h2>
+                    <p id="customerCount" class="text-3xl text-pink-600 mt-2">0</p>
+                </div>
+                <!-- Item Count -->
+                <div class="p-6 bg-white shadow-lg rounded-lg">
+                    <h2 class="text-xl font-bold text-gray-800">Items</h2>
+                    <p id="itemCount" class="text-3xl text-pink-600 mt-2">0</p>
+                </div>
+            </div>
+            <!-- Advertisement Section -->
+        </div>
+
 
     </section>
     <section id="customer" class="content-section">
@@ -123,9 +148,6 @@
             </div>
         </div>
     </section>
-
-
-
     <section id="items" class="content-section">
         <h1>Items</h1>
         <p>Manage Items</p>
@@ -140,18 +162,18 @@
                     </div>
                     <!-- Item Name Field -->
                     <div class="form-group">
-                        <label for="itemName" class="form-label">Item Name</label>
-                        <input type="text" class="form-control" id="itemName" placeholder="Enter item name">
-                    </div>
-                    <!-- Quantity Field -->
-                    <div class="form-group">
-                        <label for="quantity" class="form-label">Quantity</label>
-                        <input type="number" id="quantity" name="itemQuantity" placeholder="Enter quantity">
+                        <label for="description" class="form-label">Item Name</label>
+                        <input type="text" class="form-control" id="description" placeholder="Enter item name">
                     </div>
                     <!-- Price Field -->
                     <div class="form-group">
-                        <label for="price">Price</label>
-                        <input type="text" class="form-control" id="price" placeholder="Enter price">
+                        <label for="unitPrice">Price</label>
+                        <input type="text" class="form-control" id="unitPrice" placeholder="Enter price">
+                    </div>
+                    <!-- Quantity Field -->
+                    <div class="form-group">
+                        <label for="qty" class="form-label">Quantity</label>
+                        <input type="number" id="qty" name="itemQuantity" placeholder="Enter quantity">
                     </div>
                     <!-- Buttons -->
                     <div class="form-buttons">
@@ -175,8 +197,8 @@
                     <tr>
                         <th scope="col">Item Code</th>
                         <th scope="col">Item Name</th>
+                        <th scope="col">Price </th>
                         <th scope="col">Quantity</th>
-                        <th scope="col">Price</th>
                     </tr>
                     </thead>
                     <tbody id="item_table"></tbody>
@@ -184,17 +206,144 @@
             </div>
         </div>
     </section>
-    <section id="orders" class="content-section">
-        <h1>Orders</h1>
-        <p>Welcome to the Orders section.</p>
+    <section id="orders" class="content-section" style="margin: 0 0 0 0 !important ;">
+                <div class="row mb-4">
+                    <div class="col">
+                        <h2 class="header">Place Order</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div class="order_container mt-3">
+                            <div class="container">
+                                <h4>Invoice Details</h4>
+                                <div class="row">
+                                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                                        <div>
+                                            <label for="order_Id" class="form-label">Order ID</label>
+                                            <input type="text" class="form-control" id="order_Id" disabled>
+                                        </div>
+                                        <div>
+                                            <label for="custId" class="form-label">Customer Id</label>
+                                            <select class="form-select" aria-label="Default select example" id="custId">
+                                                <option selected>select the customer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                                        <div>
+                                            <label for="orderDate" class="form-label">Date</label>
+                                            <input type="date" class="form-control" id="orderDate">
+                                        </div>
+                                        <div>
+                                            <label for="custName" class="form-label">Customer name</label>
+                                            <input type="text" class="form-control" id="custName" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order_container mt-3">
+                            <div class="container">
+                                <h4>Item Select</h4>
+                                <div class="row">
+                                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                                        <div>
+                                            <label for="item_Id" class="form-label">Item Id</label>
+                                            <select class="form-select" aria-label="Default select example" id="item_Id">
+                                                <option selected>select the item</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label for="qtyOnHand" class="form-label">Qty On Hand</label>
+                                            <input type="number" class="form-control" id="qtyOnHand" disabled>
+                                        </div>
+                                        <div>
+                                            <label for="order_quantity" class="form-label">Order Qty</label>
+                                            <input type="number" class="form-control" id="order_quantity" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                                        <div>
+                                            <label for="desc" class="form-label">Item Description</label>
+                                            <input type="text" class="form-control" id="desc" disabled>
+                                        </div>
+                                        <div>
+                                            <label for="unit_price" class="form-label">Unit Price</label>
+                                            <input type="number" class="form-control" id="unit_price" disabled>
+                                        </div>
+                                        <div class="text-end">
+                                            <button class="cart_btn"><i class="fa-solid fa-plus fa-lg m-2"></i>Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div class="order_container mt-3">
+                            <div class="container">
+                                <h4>Cart</h4>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Item Id</th>
+                                        <th scope="col">Unit Price</th>
+                                        <th scope="col">Qty</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="order_container mt-3">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                                        <div>
+                                            <label for="cash" class="form-label">Cash</label>
+                                            <input type="number" class="form-control" id="cash">
+                                        </div>
+                                        <div>
+                                            <label for="balance" class="form-label">Balance</label>
+                                            <input type="number" class="form-control" id="balance">
+                                        </div>
+                                    </div>
+                                    <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
+                                        <div>
+                                            <label for="discount" class="form-label">Discount</label>
+                                            <input type="number" class="form-control" id="discount" max="100" min="0">
+                                        </div>
+                                        <div class="net_total">
+                                            <span>Net Total : </span>
+                                            <span>0/=</span>
+                                        </div>
+                                        <div class="sub_total">
+                                            <span>Sub Total : </span>
+                                            <span>0/=</span>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center mt-3 d-flex">
+                                        <button class="order_btn"><i class="fa-solid fa-cart-shopping fa-lg m-3"></i>Place Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     </section>
     <section id="order-details" class="content-section">
-        <h1>Order Details</h1>
-        <p>Welcome to the Order Details section.</p>
-    </section>
+        </section>
 </main>
 <footer>
-    <p>&copy; 2023 Grocery Shop. All rights reserved.</p>
+    <p>&copy; 2023. All rights reserved.</p>
 </footer>
 
 <script>
@@ -226,9 +375,36 @@
 
     // Show the default section (Home) by default
     showSection('home');
+
+        function updateDateTime() {
+        const now = new Date();
+        const options = {year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'};
+        document.getElementById('datetime').innerText = now.toLocaleDateString(undefined, options);
+    }
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call to display immediately
+
+    function updateCounter(id, endValue) {
+        let count = 0;
+        const increment = endValue / 100;
+        const interval = setInterval(() => {
+            count += increment;
+            if (count >= endValue) {
+                count = endValue;
+                clearInterval(interval);
+            }
+            document.getElementById(id).innerText = Math.floor(count);
+        }, 30);
+    }
+
+    // Example: Fetch these values dynamically from your backend
+    updateCounter('orderCount', 200);
+    updateCounter('customerCount', 150);
+    updateCounter('itemCount', 75);
 </script>
 <script src="assets/lib/jquery-3.7.1.min.js"></script>
 <script type="module" src="controller/customer.js"></script>
+<script type="module" src="controller/item.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>

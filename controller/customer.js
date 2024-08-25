@@ -1,11 +1,6 @@
-/*import {setCustomerIds} from "./placeOrder.js";*/
-
 
 var index = 0;
-
 initialize()
-
-
 function initialize() {
     loadTable();
 }
