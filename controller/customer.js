@@ -21,10 +21,10 @@ async function loadTable() {
         if (Array.isArray(customers)) {
             customers.forEach((customer, index) => {
                 var record = `<tr>
-                    <td>${customer.id}</td>
-                    <td>${customer.name}</td>
-                    <td>${customer.address}</td>
-                    <td>${customer.phone}</td>
+                    <td id="cus-id-tbl">${customer.id}</td>
+                    <td id="cus-name-tbl">${customer.name}</td>
+                    <td id="cus-address-tbl">${customer.address}</td>
+                    <td id="cus-phone-tbl">${customer.phone}</td>
                 </tr>`;
                 $('#customer_table').append(record);
             });
@@ -106,10 +106,10 @@ $('#customer_submit').on('click', () => {
 
 $('#customer_table').on('click', 'tr', function () {
 
-    const id = $(this).find('.cus-id-val').text();
-    const name = $(this).find('.cus-fname-val').text();
-    const address = $(this).find('.cus-address-val').text();
-    const phone = $(this).find('.cus-contact-val').text();
+    let id = $(this).find('#cus-id-tbl').text();
+    let name = $(this).find('#cus-name-tbl').text();
+    let address = $(this).find('#cus-address-tbl').text();
+    let phone = $(this).find('#cus-phone-tbl').text();
 
     $('#customerId').val(id);
     $('#fullname').val(name);
@@ -153,7 +153,7 @@ $(`#customer_update`).on(`click`, () => {
             phone: phone
         })
     };
-    fetch('http://localhost:8085/customer'+id, options)
+   /* fetch('http://localhost:8085/customer/'+id, options)
         .then(response => {
             return response.json().then(data=>({
                 status:response.status,
@@ -176,7 +176,46 @@ $(`#customer_update`).on(`click`, () => {
                     title: 'Customer not found',
                 });
             }
+        })*/
+
+    fetch('http://localhost:8085/customer/'+ id, options)
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(text);
+                });
+            }
+            return response.json().then(data => ({
+                status: response.status,
+                message: data.message,
+                body: data
+            }));
         })
+        .then(response => {
+            if (response.status === 200) {
+                $('#customer_table').empty();
+                loadTable();
+                swal.fire({
+                    icon: 'success',
+                    title: 'Customer updated successfully',
+                });
+                $('#customer_reset').click();
+            } else if (response.status === 404) {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Customer not found',
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+            swal.fire({
+                icon: 'error',
+                title: 'An error occurred',
+                text: error.message
+            });
+        });
+
 })
 
 $('#customer_delete').on('click', () => {
