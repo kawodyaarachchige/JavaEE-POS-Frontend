@@ -128,7 +128,61 @@
 
     <section id="items" class="content-section">
         <h1>Items</h1>
-        <p>Welcome to the Items section.</p>
+        <p>Manage Items</p>
+        <div class="item-layout">
+            <!-- Item Form -->
+            <div class="form-container">
+                <form id="itemForm">
+                    <!-- Item Code Field -->
+                    <div class="form-group">
+                        <label for="itemCode">Item Code</label>
+                        <input type="text" class="form-control" id="itemCode" disabled placeholder="Auto Generated">
+                    </div>
+                    <!-- Item Name Field -->
+                    <div class="form-group">
+                        <label for="itemName" class="form-label">Item Name</label>
+                        <input type="text" class="form-control" id="itemName" placeholder="Enter item name">
+                    </div>
+                    <!-- Quantity Field -->
+                    <div class="form-group">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" id="quantity" name="itemQuantity" placeholder="Enter quantity">
+                    </div>
+                    <!-- Price Field -->
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="text" class="form-control" id="price" placeholder="Enter price">
+                    </div>
+                    <!-- Buttons -->
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-success" id="item_submit">Save</button>
+                        <button type="button" class="btn btn-primary" id="item_update">Update</button>
+                        <button type="button" class="btn btn-warning" id="item_reset">Clear</button>
+                        <button type="button" class="btn btn-danger" id="item_delete">Delete</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Item Details Table -->
+            <div class="table-container">
+                <!-- Search Bar -->
+                <div class="form-group">
+                    <label for="searchItem">Search by Item Code</label>
+                    <input type="search" class="form-control" placeholder="Search" id="searchItem">
+                </div>
+                <table id="itemTable">
+                    <thead>
+                    <tr>
+                        <th scope="col">Item Code</th>
+                        <th scope="col">Item Name</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody id="item_table"></tbody>
+                </table>
+            </div>
+        </div>
     </section>
     <section id="orders" class="content-section">
         <h1>Orders</h1>

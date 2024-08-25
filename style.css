@@ -166,7 +166,6 @@ main {
     height: 40px;
 }
 
-
 /* Content Section */
 .content-section {
     padding: 20px;
@@ -175,8 +174,9 @@ main {
     margin: 20px;
 }
 
-/* Customer Layout: Two-Column */
-.customer-layout {
+/* Layout: Two-Column */
+.customer-layout,
+.item-layout {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -234,21 +234,42 @@ main {
     max-width: calc(50% - 10px);
 }
 
-/* Button Colors */
-#saveButton {
+/* Customer Button Colors */
+#customer_submit {
     background-color: #28a745;
 }
 
-#updateButton {
+#customer_update {
     background-color: #007bff;
 }
 
-#clearButton {
+#customer_reset {
     background-color: #ffc107;
 }
 
-#deleteButton {
+#customer_delete {
     background-color: #dc3545;
+}
+
+/* Item Button Colors */
+#item_submit {
+    background-color: #28a745;
+}
+
+#item_update {
+    background-color: #007bff;
+}
+
+#item_reset {
+    background-color: #ffc107;
+}
+
+#item_delete {
+    background-color: #dc3545;
+}
+.form-buttons button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
 }
 
 /* Table Container */
@@ -256,19 +277,21 @@ main {
     flex: 2;
     overflow-x: auto;
 }
-
-/* Customer Table */
-#customerTable {
+/* Table Styling */
+#customerTable,
+#itemTable {
     width: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
+    transition: box-shadow 0.3s ease;
 }
 
 /* Table Header */
-#customerTable th {
+#customerTable th,
+#itemTable th {
     background-color: #007bff;
     color: white;
     text-align: left;
@@ -276,9 +299,17 @@ main {
 }
 
 /* Table Rows */
-#customerTable td {
+#customerTable td,
+#itemTable td {
     padding: 10px;
     border-bottom: 1px solid #ccc;
+}
+
+/* Table Row Hover Styles */
+#customerTable tr:hover,
+#itemTable tr:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Footer */
@@ -297,7 +328,6 @@ footer {
     align-items: center;
     justify-content: center;
 }
-
 /* Media Queries */
 @media (max-width: 1500px) {
     main {
@@ -340,14 +370,12 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .customer-layout {
+    .customer-layout,
+    .item-layout {
         flex-direction: column;
     }
 
-    .form-container {
-        max-width: 100%;
-    }
-
+    .form-container,
     .table-container {
         max-width: 100%;
     }
@@ -364,7 +392,7 @@ footer {
 
 @media (max-width: 480px) {
     .form-buttons button {
-        width: 100%;
+        width: 80%;
         margin-bottom: 10px;
     }
 
@@ -375,5 +403,9 @@ footer {
 
     .main {
         height: auto;
+    }
+
+    .table-container {
+        max-width: 100%;
     }
 }

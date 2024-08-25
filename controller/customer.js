@@ -7,35 +7,33 @@ initialize()
 
 
 function initialize() {
-    /*loadTable();
-
-    var newId = generateCustomerId();
-    $('#customerId').val(newId)
-
-    setCustomerIds(customers)*/
+    loadTable();
 }
 
-function loadTable() {
+async function loadTable() {
     $('#customer_table').empty();
 
-    customers.map((customer, index) => {
-        var id = customer.id;
-        var name = customer.name;
-        var address = customer.address;
-        var phone = customer.phone;
-
-        var record = `<tr>
-        <td class="cus-id-val">${id}</td>
-        <td class="cus-fname-val">${name}</td>
-        <td class="cus-address-val">${address}</td>
-        <td class="cus-contact-val">${phone}</td>
-    </tr>`;
-
-        console.log(record)
-
-        $('#customer_table').append(record);
-    });
-
+    const options = {method: 'GET'};
+    try {
+        const response = await fetch('http://localhost:8085/customer', options)
+        const data = await response.json()
+        let customers = data.data;
+        if (Array.isArray(customers)) {
+            customers.forEach((customer, index) => {
+                var record = `<tr>
+                    <td>${customer.id}</td>
+                    <td>${customer.name}</td>
+                    <td>${customer.address}</td>
+                    <td>${customer.phone}</td>
+                </tr>`;
+                $('#customer_table').append(record);
+            });
+        } else {
+            console.error("data is not an array")
+        }
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 $('#customer_submit').on('click', () => {
@@ -107,20 +105,25 @@ $('#customer_submit').on('click', () => {
 });
 
 $('#customer_table').on('click', 'tr', function () {
-    index = $(this).index();
-    let id = $(this).find('.cus-id-val').text();
-    let name = $(this).find('.cus-fname-val').text();
-    let address = $(this).find('.cus-address-val').text();
-    let phone = $(this).find('.cus-contact-val').text();
+
+    const id = $(this).find('.cus-id-val').text();
+    const name = $(this).find('.cus-fname-val').text();
+    const address = $(this).find('.cus-address-val').text();
+    const phone = $(this).find('.cus-contact-val').text();
 
     $('#customerId').val(id);
     $('#fullname').val(name);
     $('#address').val(address);
     $('#contact').val(phone);
+
 });
 
 
 $(`#customer_update`).on(`click`, () => {
+    const id= $('#customerId').val();
+    const name= $('#fullname').val();
+    const address= $('#address').val();
+    const phone = $('#contact').val();
 
     if ($('#fullname').val() == "" || $('#address').val() == "" || $('#contact').val() == "") {
         swal.fire({
@@ -137,21 +140,43 @@ $(`#customer_update`).on(`click`, () => {
             icon: 'error',
             title: 'Please enter a valid phone number',
         });
-    } else {
-        console.log(customers[index])
-        customers[index].id = $('#customerId').val();
-        customers[index].name = $('#fullname').val();
-        customers[index].address = $('#address').val();
-        customers[index].phone = $('#contact').val();
-
-        Swal.fire({
-            icon: 'success',
-            title: 'Customer updated successfully',
-        });
-        $('#customer_reset').click();
-        initialize()
     }
-
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            id: id,
+            name: name,
+            address: address,
+            phone: phone
+        })
+    };
+    fetch('http://localhost:8085/customer'+id, options)
+        .then(response => {
+            return response.json().then(data=>({
+                status:response.status,
+                message:data.message,
+                body:data
+            }));
+        })
+        .then(response=>{
+            if(response.status===200){
+                loadTable()
+                swal.fire({
+                    icon: 'success',
+                    title: 'Customer updated successfully',
+                });
+                $('#customer_reset').click();
+                initialize()
+            }else if(response.status===404){
+                swal.fire({
+                    icon: 'error',
+                    title: 'Customer not found',
+                });
+            }
+        })
 })
 
 $('#customer_delete').on('click', () => {
@@ -187,20 +212,6 @@ $("#searchCustomer").on("input", function () {
         }
     })
 });
-
-function generateCustomerId() {
-    let lastId = 'C-001'; // Default if array is empty
-
-    if (customers.length > 0) {
-        let lastElement = customers[customers.length - 1].id;
-        let lastIdParts = lastElement.split('-');
-        let lastNumber = parseInt(lastIdParts[1]);
-
-        lastId = `C-${String(lastNumber + 1).padStart(3, '0')}`;
-    }
-
-    return lastId;
-}
 
 
 const addressPattern = /^[a-zA-Z0-9\s,'-]*$/
