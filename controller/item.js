@@ -13,7 +13,6 @@ $('#item_reset').on('click', () => {
 
 async function loadTable() {
     $('#item_table').empty();
-
     const options = {method: 'GET'};
     try {
         const response = await fetch('http://localhost:8085/item', options)
@@ -36,7 +35,25 @@ async function loadTable() {
         console.error(error)
     }
 }
+async function loadSearchedItem() {
+    const options = {method: 'GET'};
+    try {
+        const response = await fetch('http://localhost:8085/item/' + $('#searchItem').val(), options)
+        const data = await response.json()
+        let items = data.data;
+        console.log(items);
+        var record = `<tr>
+                    <td id="item-code-tbl">${items.item_id}</td>
+                    <td id="item-desc-tbl">${items.description}</td>
+                    <td id="item-price-tbl">${items.price}</td>
+                    <td id="item-qty-tbl">${items.quantity}</td>
+                </tr>`;
+        $('#item_table').append(record);
 
+    } catch (error) {
+        console.error(error)
+    }
+}
 $('#item_submit').on('click', () => {
     console.log("Item submit clicked..")
     var id = null;
@@ -88,7 +105,7 @@ $('#item_submit').on('click', () => {
                             title: 'Item added successfully',
                         });
                         $('#item_reset').click();
-                        initialize();
+                        loadTable();
                     } else if (json.status === 404) {
                         swal.fire({
                             icon: 'error',
@@ -236,29 +253,18 @@ $('#item_delete').on('click', () => {
 
 
 $("#searchItem").on("input", function () {
-    console.log("hello");
-    var typedText = $("#searchItem").val();
-    items.map((item, index) => {
-        if (typedText == "") {
-            loadTable()
-        }
-
-        if (typedText == item.itemCode) {
-            var select_index = index;
-
+    console.log("searching..."+$("#searchItem").val());
+    try{
+        if($("#searchItem").val() == "" || $("#searchItem").val() == null){
             $('#item_table').empty();
-
-            var record = `<tr>
-               <td class="itm-id-val">${items[select_index].itemCode}</td>
-               <td class="itm-desc-val">${items[select_index].description}</td>
-               <td class="itm-unitPrice-val">${items[select_index].unitPrice}</td>
-               <td class="itm-qty-val">${items[select_index].qty}</td>
-            </tr>`;
-
-            console.log(record)
-            $('#item_table').append(record);
+            loadTable();
+        }else {
+            $('#item_table').empty();
+            loadSearchedItem();
         }
-    })
+    }catch (err){
+        console.error(err);
+    }
 });
 
 

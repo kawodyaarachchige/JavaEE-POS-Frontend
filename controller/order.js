@@ -2,7 +2,6 @@ import {OrderModel} from "../model/OrderModel.js";
 import {OrderDetailModel} from "../model/OrderDetailsModel.js";
 import {loadOrderTable} from "./orderDetails.js";
 
-
 let cart = [];
 
 const order_id = $('#order_Id');
@@ -29,6 +28,8 @@ initialize();
 
 function initialize() {
     setOrderId();
+    setCustomerNames();
+    setItemIds();
 }
 
 
@@ -47,86 +48,83 @@ function setOrderId() {
     });
 }
 
-export function setCustomerIds(data) {
-    customer_id.empty();
-    customer_id.append('<option selected>select the customer</option>');
+async function setCustomerNames() {
+    try {
+        let response = await fetch('http://localhost:8085/customer');
+        let data = await response.json();
+        let customers = data.data;
 
-    for (let i = 0; i < data.length; i++) {
-        customer_id.append('<option value="' + data[i].id + '">' + data[i].id + '</option>');
+        if (Array.isArray(customers)) {
+            customers.forEach((customer, index) => {
+                customer_id.append('<option value ="' + customer.id + '">' + customer.id + '</option>');
+            })
+        }
+    } catch (error) {
+        console.error(error);
     }
 }
 
+async function setItemIds() {
+    try {
+        let response = await fetch('http://localhost:8085/item');
+        let data = await response.json();
+        let items = data.data;
 
-export function setItemIds(data) {
-    item_Id.empty();
-    item_Id.append('<option selected>select the item</option>');
-
-    for (let i = 0; i < data.length; i++) {
-        item_Id.append('<option value ="' + data[i].id + '">' + data[i].id + '</option>');
+        if (Array.isArray(items)) {
+            items.forEach((item, index) => {
+                item_Id.append('<option value ="' + item.item_id + '">' + item.item_id + '</option>');
+            })
+        }
+    } catch (error) {
+        console.error(error);
     }
 }
 
 
 customer_id.on('input', () => {
-    if (customer_id.val() !== 'select the customer'){
-
-        $.ajax({
-            url: "http://localhost:8085/customer",
-            type: "GET",
-            data: {"id": customer_id.val() },
-            success: (res) => {
-                console.log(res);
-                let search = JSON.parse(res);
-                console.log(search);
-
-                customer_name.val(search.name);
-            },
-            error: (res) => {
-                console.error(res);
-            }
-        });
-
-    }else{
+    if (customer_id.val() !== 'select the customer') {
+        loadSearchedCustomerDetails();
+    } else {
         customer_name.val('');
     }
 });
+async function loadSearchedCustomerDetails() {
+    const option = {method: 'GET'}
+    let response = await fetch("http://localhost:8085/customer/" + customer_id.val(),option);
+    let data = await response.json();
+    let customer=data.data;
+
+    if(response.status === 200){
+        customer_name.val(customer.name);
+    }
+}
 
 
 item_Id.on('input', () => {
-    if (item_Id.val() !== 'select the item'){
+    if (item_Id.val() !== 'select the item') {
+        loadSearchedItemDetails();
 
-        $.ajax({
-            url: "http://localhost:8085/item",
-            type: "GET",
-            data: {"id": item_Id.val() },
-            success: (res) => {
-                console.log(res);
-                let search = JSON.parse(res);
-                console.log(search);
-
-                description.val(search.description);
-                qty_on_hand.val(search.qty);
-                unit_price.val(search.unitPrice);
-            },
-            error: (res) => {
-                console.error(res);
-            }
-        });
-
-    }else{
+    } else {
         description.val('');
         qty_on_hand.val('');
         unit_price.val('');
     }
 });
+async function loadSearchedItemDetails() {
+    const option = {method: 'GET'}
+    let response = await fetch("http://localhost:8085/item/" + item_Id.val(),option);
+    let data = await response.json();
+    let item=data.data;
+    if(response.status === 200){
+        description.val(item.description);
+        qty_on_hand.val(item.quantity);
+        unit_price.val(item.price);
+    }
+}
 
-
-//set date
 const formattedDate = new Date().toISOString().substr(0, 10);
 date.val(formattedDate);
 
-
-//add to cart
 cart_btn.on('click', () => {
     let itemId = item_Id.val();
     let orderQTY = parseInt(order_qty.val());
@@ -181,7 +179,7 @@ function loadCart() {
 }
 
 
-function setTotalValues(){
+function setTotalValues() {
     let netTotal = calculateTotal();
     net_total.text(`${netTotal}/=`);
 
@@ -191,7 +189,7 @@ function setTotalValues(){
 }
 
 
-function calculateTotal(){
+function calculateTotal() {
     let netTotal = 0;
     cart.map((cart_item) => {
         netTotal += cart_item.total;
@@ -209,7 +207,7 @@ function clearItemSection() {
 }
 
 
-function setBalance(){
+function setBalance() {
     let subTotal = parseFloat(sub_total.text());
     let cashAmount = parseFloat(cash.val());
     balance.val(cashAmount - subTotal);
@@ -218,8 +216,6 @@ function setBalance(){
 
 cash.on('input', () => setBalance());
 
-
-//set sub total value
 discount.on('input', () => {
     let discountValue = parseFloat(discount.val()) || 0;
     if (discountValue < 0 || discountValue > 100) {
@@ -234,7 +230,7 @@ discount.on('input', () => {
 });
 
 
-$('tbody').on('click', '.cart_remove', function() {
+$('tbody').on('click', '.cart_remove', function () {
     const item_Id = $(this).data('id');
     console.log(item_Id)
     const index = item_Id - 1;
@@ -249,6 +245,7 @@ $('tbody').on('click', '.cart_remove', function() {
 
 
 order_btn.on('click', () => {
+    console.log('order button clicked');
     let orderId = order_id.val();
     let order_date = date.val();
     let customerId = customer_id.val();
@@ -267,7 +264,7 @@ order_btn.on('click', () => {
                 url: "http://localhost:8085/order",
                 type: "POST",
                 data: jsonOrder,
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 success: (res) => {
                     console.log(JSON.stringify(res));
                     Swal.fire({
@@ -289,7 +286,7 @@ order_btn.on('click', () => {
                         url: "http://localhost:8085/orderDetails",
                         type: "POST",
                         data: jsonOrderDetail,
-                        headers: { "Content-Type": "application/json" },
+                        headers: {"Content-Type": "application/json"},
                         success: (res) => {
                             console.log(JSON.stringify(res));
                         },
@@ -297,7 +294,7 @@ order_btn.on('click', () => {
                             console.error(res);
                         }
                     });
-                },1000)
+                }, 1000)
 
             });
 
@@ -314,10 +311,10 @@ order_btn.on('click', () => {
 
             loadItemTable()
 
-            setTimeout( () => {
+            setTimeout(() => {
                 initialize();
                 loadOrderTable()
-            },1000)
+            }, 1000)
 
         } else {
             Swal.fire({

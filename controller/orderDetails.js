@@ -4,35 +4,31 @@ export function loadOrderTable() {
     $('#order_table').empty();
 
     let ordersArray = [];
+    loadAllOrders();
 
-    $.ajax({
-        url: "http://localhost:8085/order",
-        type: "GET",
-        data: {"all": "getAll"},
-        success: (res) => {
-            console.log(res);
-            ordersArray = JSON.parse(res);
-            console.log(ordersArray);
+}
+async function loadAllOrders() {
+    try{
+        const option = {method: 'GET'}
+        let response = await fetch("http://localhost:8085/order",option);
+        let data = await response.json();
+        let orders=data.data;
 
-            ordersArray.map((order, index) => {
-
-                var record = `<tr>
-                    <td class="order-id-val">${order.id}</td>
-                    <td class="cus-id-val">${order.customer_id}</td>
-                    <td class="order-date-val">${order.date}</td>
-                    <td class="order-total-val">${order.sub_total}</td>
-                </tr>`;
-
+        if (Array.isArray(orders)) {
+            orders.forEach((order, index) => {
+                let record = `<tr>
+                <td class="order-id-val">${order.id}</td>
+                <td class="cus-id-val">${order.customer_id}</td>
+                <td class="order-date-val">${order.date}</td>
+                <td class="order-total-val">${order.sub_total}</td>
+            </tr>`;
                 $('#order_table').append(record);
             });
-
-            $("#order_count").text(ordersArray.length);
-        },
-        error: (res) => {
-            console.error(res);
+            $("#order_count").text(orders.length);
         }
-    });
-
+    }catch (error) {
+        console.error(error)
+    }
 }
 
 

@@ -1,3 +1,6 @@
+import {setCustomerIds} from "./order.js";
+
+
 var index = 0;
 
 initialize()
@@ -16,6 +19,7 @@ $('#customer_reset').on('click', () => {
 });
 
 async function loadTable() {
+    $('#customer_table').empty();
     const options = {method: 'GET'};
     try {
         const response = await fetch('http://localhost:8085/customer', options)
@@ -114,7 +118,7 @@ $('#customer_submit').on('click', () => {
                         title: 'Customer added successfully',
                     });
                     $('#customer_reset').click();
-                    initialize()
+                    loadTable()
                 } else if (json.status === 404) {
                     swal.fire({
                         icon: 'error',
