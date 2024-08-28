@@ -1,9 +1,12 @@
-
 var index = 0;
+
 initialize()
+
+
 function initialize() {
     loadTable();
 }
+
 $('#customer_reset').on('click', () => {
     console.log("Customer reset clicked..")
     $('#customerId').val("");
@@ -13,8 +16,6 @@ $('#customer_reset').on('click', () => {
 });
 
 async function loadTable() {
-    $('#customer_table').empty();
-
     const options = {method: 'GET'};
     try {
         const response = await fetch('http://localhost:8085/customer', options)
@@ -33,6 +34,26 @@ async function loadTable() {
         } else {
             console.error("data is not an array")
         }
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function loadSearchedCustomer() {
+    const options = {method: 'GET'};
+    try {
+        const response = await fetch('http://localhost:8085/customer/' + $('#searchCustomer').val(), options)
+        const data = await response.json()
+        let customers = data.data;
+        console.log(customers);
+        var record = `<tr>
+                    <td id="cus-id-tbl">${customers.id}</td>
+                    <td id="cus-name-tbl">${customers.name}</td>
+                    <td id="cus-address-tbl">${customers.address}</td>
+                    <td id="cus-phone-tbl">${customers.phone}</td>
+                </tr>`;
+        $('#customer_table').append(record);
+
     } catch (error) {
         console.error(error)
     }
@@ -122,9 +143,9 @@ $('#customer_table').on('click', 'tr', function () {
 
 
 $(`#customer_update`).on(`click`, () => {
-    const id= $('#customerId').val();
-    const name= $('#fullname').val();
-    const address= $('#address').val();
+    const id = $('#customerId').val();
+    const name = $('#fullname').val();
+    const address = $('#address').val();
     const phone = $('#contact').val();
 
     if ($('#fullname').val() == "" || $('#address').val() == "" || $('#contact').val() == "") {
@@ -155,7 +176,7 @@ $(`#customer_update`).on(`click`, () => {
             phone: phone
         })
     };
-    fetch('http://localhost:8085/customer/'+ id, options)
+    fetch('http://localhost:8085/customer/' + id, options)
         .then(response => {
             if (!response.ok) {
                 return response.text().then(text => {
@@ -197,7 +218,7 @@ $(`#customer_update`).on(`click`, () => {
 
 $('#customer_delete').on('click', () => {
     const id = $('#customerId').val();
-    fetch('http://localhost:8085/customer/'+ id, {
+    fetch('http://localhost:8085/customer/' + id, {
         method: 'DELETE',
     })
         .then(response => {
@@ -239,29 +260,18 @@ $('#customer_delete').on('click', () => {
 })
 
 $("#searchCustomer").on("input", function () {
-    var typedText = $("#searchCustomer").val();
-    customers.map((customer, index) => {
-        if (typedText == "") {
-            loadTable()
-        }
-
-        if (typedText == customer.id) {
-            var select_index = index;
-
+    try {
+        if($("#searchCustomer").val() == ""|| $("#searchCustomer").val() == null){
             $('#customer_table').empty();
-
-            var record = `<tr>
-                <td class="cus-id-val">${customers[select_index].id}</td>
-                <td class="cus-fname-val">${customers[select_index].name}</td>
-                <td class="cus-address-val">${customers[select_index].address}</td>
-                <td class="cus-contact-val">${customers[select_index].phone}</td>
-            </tr>`;
-
-            $('#customer_table').append(record);
+            loadTable();
+        }else{
+            $('#customer_table').empty();
+            loadSearchedCustomer();
         }
-    })
-});
-
+    } catch (err) {
+        console.log(err)
+    }
+})
 
 const addressPattern = /^[a-zA-Z0-9\s,'-]*$/
 const mobilePattern = /^(?:\+94|94|0)?7\d{8}$/

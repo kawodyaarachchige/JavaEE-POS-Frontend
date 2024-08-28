@@ -51,7 +51,7 @@ main {
     display: grid;
     grid-template-columns: 13% 87%;
     width: 100%;
-    height: 80%;
+    height: 85%;
     margin: 40px;
     background: rgb(254, 254, 254);
     box-shadow: 0 0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
@@ -293,7 +293,7 @@ main {
 }
 /* Table Styling */
 #customerTable,
-#itemTable {
+#itemTable ,#order-details-table,#order-table {
     width: 100%;
     border-collapse: collapse;
     background-color: #ffffff;
@@ -305,7 +305,7 @@ main {
 
 /* Table Header */
 #customerTable th,
-#itemTable th {
+#itemTable th ,#order-details-table th,#order-table th {
     background-color: #731E21;
     color: white;
     text-align: left;
@@ -407,7 +407,6 @@ footer {
 @media (max-width: 1310px) {
     main {
         grid-template-columns: 15% 85%;
-        height: auto;
     }
 
     .main-menu {
