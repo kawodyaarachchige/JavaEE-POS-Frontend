@@ -43,7 +43,7 @@ The frontend of the Vegetable Shop POS System provides an intuitive and responsi
 - **Generate Reports**: View reports based on order history and other metrics.
 - **Search Orders**: Find orders by ID.
 
-
+![App Screenshot](https://imgur.com/Rhkr7Hh.png)
 ![App Screenshot](https://imgur.com/9sBlRDo.png)
 ![App Screenshot](https://imgur.com/UOrwWPm.png)
 ![App Screenshot](https://imgur.com/h41lKUK.png)
