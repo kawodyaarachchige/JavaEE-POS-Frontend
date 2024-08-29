@@ -44,10 +44,20 @@ The frontend of the Vegetable Shop POS System provides an intuitive and responsi
 - **Search Orders**: Find orders by ID.
 
 ![App Screenshot](https://imgur.com/Rhkr7Hh.png)
-![App Screenshot](https://imgur.com/9sBlRDo.png)
+<hr>
+
+![App Screenshot](https://imgur.com/EgmNzCR.png)
+<hr>
+
 ![App Screenshot](https://imgur.com/UOrwWPm.png)
+<hr>
+
 ![App Screenshot](https://imgur.com/h41lKUK.png)
+<hr>
+
 ![App Screenshot](https://imgur.com/uojHwJw.png)
+<hr>
+
 ![App Screenshot](https://imgur.com/FU28osj.png)
 
  ## License
