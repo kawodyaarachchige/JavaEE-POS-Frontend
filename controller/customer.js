@@ -1,6 +1,3 @@
-import {setCustomerIds} from "./order.js";
-
-
 var index = 0;
 
 initialize()
@@ -35,6 +32,7 @@ async function loadTable() {
                 </tr>`;
                 $('#customer_table').append(record);
             });
+            updateCounter('#customerCount', customers.length);
         } else {
             console.error("data is not an array")
         }
@@ -182,11 +180,6 @@ $(`#customer_update`).on(`click`, () => {
     };
     fetch('http://localhost:8085/customer/' + id, options)
         .then(response => {
-            if (!response.ok) {
-                return response.text().then(text => {
-                    throw new Error(text);
-                });
-            }
             return response.json().then(data => ({
                 status: response.status,
                 message: data.message,
@@ -195,6 +188,7 @@ $(`#customer_update`).on(`click`, () => {
         })
         .then(response => {
             if (response.status === 200) {
+
                 $('#customer_table').empty();
                 loadTable();
                 swal.fire({

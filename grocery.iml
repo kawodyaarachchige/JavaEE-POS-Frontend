@@ -7,5 +7,6 @@
     <orderEntry type="library" name="dataTables" level="application" />
     <orderEntry type="library" name="dataTables.bootstrap5" level="application" />
     <orderEntry type="library" name="twitter-bootstrap" level="application" />
+    <orderEntry type="library" name="Chart.js" level="application" />
   </component>
 </module>

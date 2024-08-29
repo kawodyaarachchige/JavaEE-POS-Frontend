@@ -11,11 +11,13 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.bootstrap5.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
-<main>
+<main style="height: auto">
     <nav class="main-menu" style="padding: 0">
-        <h1>Grocery Shop</h1>
+        <h1>VeggiePop</h1>
         <img class="logo" src="https://cdn-icons-png.flaticon.com/512/135/135532.png" alt="Logo" />
         <ul style="padding: 0">
             <li class="nav-item active" data-target="home">
@@ -62,39 +64,52 @@
     </nav>
 
     <section id="home" class="content-section">
-        <h1>Home</h1>
-        <p>Welcome to the Home section.</p>
-        <div class="container mx-auto p-4">
-            <!-- Date and Time -->
-            <div id="datetime" class="text-center text-gray-700 text-lg font-semibold"></div>
+        <!-- Date and Time -->
+        <div id="datetime" class="text-right text-gray-700 text-lg font-semibold lg:w-1/3"></div>
 
+        <h1 class="text-center text-gray-700 text-lg font-semibold mt-2"> 🍠 🫑 VEGGIEPOP MANAGEMENT SYSTEM  🥕🥦</h1>
+        <div class="container mx-auto p-4 flex flex-col lg:flex-row lg:justify-between items-center">
             <!-- Counters Section -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mt-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mt-8 lg:w-2/3">
                 <!-- Order Count -->
-                <div class="p-6 bg-white shadow-lg rounded-lg">
+                <div class="p-6 bg-white shadow-lg rounded-lg ">
+                    <div class="flex items-center justify-center mb-4">
+                        <i class="fas fa-box text-3xl text-pink-600"></i>
+                    </div>
                     <h2 class="text-xl font-bold text-gray-800">Orders</h2>
                     <p id="orderCount" class="text-3xl text-pink-600 mt-2">0</p>
                 </div>
                 <!-- Customer Count -->
                 <div class="p-6 bg-white shadow-lg rounded-lg">
+                    <div class="flex items-center justify-center mb-4">
+                        <i class="fas fa-user text-3xl text-pink-600"></i>
+                    </div>
                     <h2 class="text-xl font-bold text-gray-800">Customers</h2>
                     <p id="customerCount" class="text-3xl text-pink-600 mt-2">0</p>
                 </div>
                 <!-- Item Count -->
                 <div class="p-6 bg-white shadow-lg rounded-lg">
+                    <div class="flex items-center justify-center mb-4">
+                        <i class="fas fa-tag text-3xl text-pink-600"></i>
+                    </div>
                     <h2 class="text-xl font-bold text-gray-800">Items</h2>
                     <p id="itemCount" class="text-3xl text-pink-600 mt-2">0</p>
                 </div>
             </div>
-            <!-- Advertisement Section -->
+
+            <!-- Chart Section -->
+            <div class="mt-8 w-full lg:w-1/1" style="width: 100%; height: 300px; display: flex; align-items: center;">
+                <canvas id="salesChart" style="width: 100%; height: 100%; max-width: 100%; max-height: 100%; flex: 1 1 auto;"></canvas>
+            </div>
+
         </div>
-
-
     </section>
-    <section id="customer" class="content-section">
-        <h1>Customer</h1>
-        <p>Manage Customers</p>
 
+
+    <section id="customer" class="content-section">
+        <div class="container mx-auto p-4 flex flex-col lg:flex-row lg:justify-between items-center">
+            <h1 style="font-weight: bold; font-family: 'Arial', sans-serif;">Manage Customers</h1>
+        </div>
         <div class="customer-layout">
             <!-- Customer Form -->
             <div class="form-container">
@@ -151,8 +166,9 @@
         </div>
     </section>
     <section id="items" class="content-section">
-        <h1>Items</h1>
-        <p>Manage Items</p>
+        <div class="container mx-auto p-4 flex flex-col lg:flex-row lg:justify-between items-center">
+            <h1 style="font-weight: bold; font-family: 'Arial', sans-serif;">Manage Items</h1>
+        </div>
         <div class="item-layout">
             <!-- Item Form -->
             <div class="form-container">
@@ -208,13 +224,13 @@
             </div>
         </div>
     </section>
-    <section id="orders" class="content-section" style="margin: 0 0 0 0 !important ;">
+    <section id="orders" class="content-section">
         <div class="row mb-4">
-            <div class="col">
-                <h2 class="header">Place Order</h2>
+            <div class="container mx-auto p-2 flex flex-col lg:flex-row lg:justify-between items-center">
+                <h1 style="font-weight: bold; font-family: 'Arial', sans-serif;">Manage Orders</h1>
             </div>
         </div>
-        <div class="row">
+        <div class ="row h-100" >
             <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
                 <div class="order_container mt-3">
                     <div class="container">
@@ -340,13 +356,12 @@
         </div>
     </section>
     <section id="order-details" class="content-section">
+        <div class="row mb-5">
+            <div class="container mx-auto p-2 flex flex-col lg:flex-row lg:justify-between items-center">
+                <h1 style="font-weight: bold; font-family: 'Arial', sans-serif;">Order Details</h1>
+        </div>
         <div class="container">
-            <div class="row mb-5">
-                <div class="col">
-                    <h3 class="header">Order Details History</h3>
-                </div>
-            </div>
-            <div class="order_container">
+            <div class="order_container mt-3">
                 <div class="row">
                     <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
                         <form>
@@ -367,6 +382,8 @@
                                 <input type="text" class="form-control" id="order_details_discount" disabled>
                             </div>
                         </form>
+                        <button class="btn btn-primary" id="report"><i class="fa-solid fa-file-excel fa-lg"></i> Generate Report</button>
+
                     </div>
 
                     <div class="col col-lg-6 col-md-12 col-sm-12 col-12">
@@ -375,7 +392,7 @@
                             <label for="searchOrder" class="form-label">Search by Order ID</label>
                             <input type="search" class="form-control" placeholder="Search" id="searchOrder">
                         </div>
-
+                        <!-- Table for Order Details -->
                         <table id="order-table" class="table table-hover">
                             <thead>
                             <tr>
@@ -408,10 +425,11 @@
                 </div>
             </div>
         </div>
+        </div>
     </section>
 </main>
 <footer>
-    <p>&copy; 2023. All rights reserved.</p>
+    <p>&copy; 2024 Veggie Shop - All rights reserved.</p>
 </footer>
 
 <script>
@@ -427,48 +445,89 @@
     navItems.forEach((navItem) => {
         navItem.addEventListener("click", () => {
             const targetId = navItem.getAttribute("data-target");
-
-            // Show the target section
             showSection(targetId);
-
-            // Remove active class from all nav items
             navItems.forEach((item) => {
                 item.classList.remove("active");
             });
-
-            // Add active class to the clicked nav item
             navItem.classList.add("active");
         });
     });
-
-    // Show the default section (Home) by default
     showSection('home');
-
     function updateDateTime() {
         const now = new Date();
         const options = {year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'};
         document.getElementById('datetime').innerText = now.toLocaleDateString(undefined, options);
     }
     setInterval(updateDateTime, 1000);
-    updateDateTime(); // Initial call to display immediately
-
-    function updateCounter(id, endValue) {
+    updateDateTime();
+    function updateCounter(selector, endValue) {
         let count = 0;
-        const increment = endValue / 100;
+        const increment = endValue / 10;
         const interval = setInterval(() => {
             count += increment;
             if (count >= endValue) {
                 count = endValue;
                 clearInterval(interval);
             }
-            document.getElementById(id).innerText = Math.floor(count);
+            $(selector).text(Math.floor(count));
         }, 30);
     }
 
-    // Example: Fetch these values dynamically from your backend
-    updateCounter('orderCount', 200);
-    updateCounter('customerCount', 150);
-    updateCounter('itemCount', 75);
+    var now = new Date();
+    var currentMonth = now.toLocaleString('default', { month: 'long' });
+    var currentYear = now.getFullYear();
+
+    var salesData = [100000, 120000, 180000, 400000, 90000, 90000, 170000, 280000, 90000, 200000, 110000, 20000];
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var currentMonthIndex = months.indexOf(currentMonth);
+
+    var filteredSalesData = salesData.slice(0, currentMonthIndex + 1);
+    var filteredMonths = months.slice(0, currentMonthIndex + 1);
+
+    var ctx = document.getElementById('salesChart').getContext('2d');
+    var salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: filteredMonths,
+            datasets: [{
+                label: `Sales ${currentYear}`,
+                data: filteredSalesData,
+                backgroundColor: 'rgba(91,33,63,0.53)',
+                borderColor: 'rgba(91,33,63,0.53)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Sales Rs.'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Months'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+        }
+    });
+
+
+
 </script>
 <script src="assets/lib/jquery-3.7.1.min.js"></script>
 <script type="module" src="controller/customer.js"></script>

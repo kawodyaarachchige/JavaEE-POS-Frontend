@@ -11,7 +11,7 @@ $('#item_reset').on('click', () => {
     $('#qty').val("");
 });
 
-async function loadTable() {
+export async function loadTable() {
     $('#item_table').empty();
     const options = {method: 'GET'};
     try {
@@ -28,6 +28,7 @@ async function loadTable() {
                 </tr>`;
                 $('#item_table').append(record);
             });
+            updateCounter('#itemCount', items.length);
         } else {
             console.error("data is not an array")
         }

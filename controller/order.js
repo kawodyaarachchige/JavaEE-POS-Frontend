@@ -1,6 +1,7 @@
 import {OrderModel} from "../model/OrderModel.js";
 import {OrderDetailModel} from "../model/OrderDetailsModel.js";
 import {loadOrderTable} from "./orderDetails.js";
+import {loadTable} from "./item.js";
 
 let cart = [];
 
@@ -84,6 +85,8 @@ async function setItemIds() {
 customer_id.on('input', () => {
     if (customer_id.val() !== 'select the customer') {
         loadSearchedCustomerDetails();
+
+
     } else {
         customer_name.val('');
     }
@@ -103,6 +106,8 @@ async function loadSearchedCustomerDetails() {
 item_Id.on('input', () => {
     if (item_Id.val() !== 'select the item') {
         loadSearchedItemDetails();
+        $('#custId').empty();
+        setCustomerNames();
 
     } else {
         description.val('');
@@ -143,6 +148,10 @@ cart_btn.on('click', () => {
                 total: total
             }
             cart.push(cart_item);
+            Swal.fire({
+                title: "Item added to cart",
+                icon: "success"
+            });
             loadCart();
             setTotalValues()
             clearItemSection();
@@ -172,7 +181,8 @@ function loadCart() {
                 <td>${item.unitPrice}</td>
                 <td>${item.qty}</td>
                 <td>${item.total}</td>
-                <td><button class="cart_remove" data-id="${item.itemId}">Remove</button></td>
+                <td><button class="cart_remove" data-id="${item.itemId}">Remove</button>
+                </td>
             </tr>`
         );
     });
@@ -309,7 +319,7 @@ order_btn.on('click', () => {
             net_total.text('0/=');
             sub_total.text('0/=');
 
-            loadItemTable()
+            loadTable()
 
             setTimeout(() => {
                 initialize();

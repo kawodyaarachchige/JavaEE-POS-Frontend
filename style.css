@@ -164,8 +164,106 @@ main {
     display: block;
     width: 120px;
     height: 40px;
+}#home {
+     padding: 20px 20px;
+     background-color: #f9f9f9;
+     height: auto;
+     display: flex;
+     flex-direction: column;
+ }
+
+#home h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color:  #d53f8c;
+    margin-bottom: 20px;
+    font-family: "Nunito", sans-serif;
 }
-.order_container {
+
+#home p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+#datetime {
+    text-align: right;
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: auto;
+}
+.grid {
+    display: grid;
+    gap: 20px;
+}
+
+.grid-cols-1 {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.sm\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.p-6 {
+    padding: 24px;
+}
+
+.mt-8 {
+    margin-top: 32px;
+}
+
+.bg-white {
+    background-color: #fff;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.rounded-lg {
+    border-radius: 8px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.text-gray-700 {
+    color: #d53f8c;
+}
+
+.text-gray-800 {
+    color: #2d3748;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+.text-3xl {
+    font-size: 1.875rem;
+}
+
+.text-pink-600 {
+    color: #d53f8c;
+}
+    .order_container {
     background-color: rgb(252, 251, 251);
     margin-top: 80px;
     padding: 30px;
@@ -176,8 +274,6 @@ main {
 .order_container .container .row .col div {
     margin: 15px;
 }
-
-/* Content Section */
 .content-section {
     height: auto;
     width:auto;
@@ -186,8 +282,6 @@ main {
     border-radius: 10px;
     margin: 15px;
 }
-
-/* Layout: Two-Column */
 .customer-layout,
 .item-layout {
     display: flex;
@@ -195,8 +289,6 @@ main {
     justify-content: space-between;
     gap: 20px;
 }
-
-/* Form Container */
 .form-container {
     background-color: #ffffff;
     padding: 20px;
@@ -205,20 +297,15 @@ main {
     flex: 1;
     max-width: 100%;
 }
-
-/* Form Group */
 .form-group {
     margin-bottom: 15px;
 }
 
-/* Label */
 .form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
 }
-
-/* Input Fields */
 .form-group input {
     width: 100%;
     padding: 10px;
@@ -227,15 +314,11 @@ main {
     box-sizing: border-box;
     font-size: 14px;
 }
-
-/* Form Buttons */
 .form-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
-
-/* Button Styles */
 .form-buttons button {
     padding: 10px 15px;
     border: none;
@@ -246,8 +329,6 @@ main {
     flex: 1;
     max-width: calc(50% - 10px);
 }
-
-/* Customer Button Colors */
 #customer_submit {
     background-color: #28a745;
 }
@@ -263,8 +344,6 @@ main {
 #customer_delete {
     background-color: #dc3545;
 }
-
-/* Item Button Colors */
 #item_submit {
     background-color: #28a745;
 }
@@ -286,12 +365,10 @@ main {
     color: black;
 }
 
-/* Table Container */
 .table-container {
     flex: 2;
     overflow-x: auto;
 }
-/* Table Styling */
 #customerTable,
 #itemTable ,#order-details-table,#order-table {
     width: 100%;
@@ -357,6 +434,17 @@ main {
 .cart_remove:hover {
     opacity: 0.7;
 }
+#report{
+    background: #28a745;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+#report:hover{
+    background: rgb(176, 182, 176);
+    color: black;
+}
 
 /* Footer */
 footer {
@@ -378,6 +466,8 @@ footer {
 @media (max-width: 1500px) {
     main {
         grid-template-columns: 20% 80%;
+        height: auto;
+
     }
 
     .main-menu {
@@ -402,6 +492,11 @@ footer {
     .nav-icon {
         display: block;
     }
+    #home {
+        padding: 0;
+        background-color: #f9f9f9;
+        height: 80%;
+    }
 }
 
 @media (max-width: 1310px) {
@@ -411,6 +506,11 @@ footer {
 
     .main-menu {
         width: 100%;
+    }
+    #home {
+        padding: 20px 20px;
+        background-color: #f9f9f9;
+        height: auto;
     }
 }
 
@@ -429,9 +529,13 @@ footer {
         width: 100%;
         margin-bottom: 10px;
     }
+    .chart-container {
+        max-width: 100%;
+        padding: 15px;
+    }
 
-    .main {
-        height: auto;
+    .chart-title {
+        font-size: 20px;
     }
 }
 
